@@ -1,0 +1,233 @@
+---
+title: 'class06: R Functions'
+author: "Jocelyn Olvera"
+date: "10/15/2021"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+#### __R Markdown__
+
+```{r}
+plot(1:10)
+```
+
+#### __R Functions Lab__
+
+Here we will write a function to grade some student homework.
+
+We will start with a more simple input example - a vector of student homework scores. 
+
+```{r}
+# Example input vectors to start with
+student1 <- c(100, 100, 100, 100, 100, 100, 100, 90)
+student2 <- c(100, NA, 90, 90, 90, 90, 97, 80)
+student3 <- c(90, NA, NA, NA, NA, NA, NA, NA)
+```
+
+> **Q1.** Write a function grade() to determine an overall grade from a vector of student homework assignment scores dropping the lowest single score. If a student misses a homework (i.e. has an NA value) this can be used as a score to be potentially dropped. Your final function should be adquately explained with code comments and be able to work on an example class gradebook such as this one in CSV format: “https://tinyurl.com/gradeinput” [3pts]
+
+To reveal the scores of student 1, just call for 'student1'.
+
+```{r}
+student1
+```
+The regular average will be returned by the 'mean()' function.
+
+```{r}
+mean(student1)
+```
+
+Finding the lowest score using 'min()' function. 
+
+```{r}
+min(student1)
+```
+
+To find the position of the smallest value (i.e min) value in our vector we can use 'which.min()' function. 
+```{r}
+which.min(student1)
+```
+
+This calls for a score at a given position [ ].
+
+```{r}
+student1[8]
+```
+Another function to find the min value.
+
+```{r}
+student1[which.min(student1)]
+```
+
+To get everything but the min value use the minus sign (-). 
+```{r}
+student1[-which.min(student1)]
+```
+
+Then take the mean for this vector.
+```{r}
+## This is my first solution/snipet
+mean(student1[-which.min(student1)])
+```
+
+Using 'na.rm=TRUE' argument will drop NA from the mean calculation. This makes it unfair when compared to students that completed all homework assignments.
+
+```{r}
+mean(student3, na.rm=TRUE)
+```
+
+Instead, map/change the NA values to zero for a fair comparison. Use the 'is.na()' function to call for NA. 
+```{r}
+student2
+is.na(student2)
+```
+
+Creating a shortcut for 'student2' and changing NA to 0.
+```{r}
+x <- student2
+x
+
+x[is.na(x)] <- 0
+x
+mean(x)
+```
+
+_Combining our working snippets to find the average score for student3._
+
+```{r}
+ x <- student3
+x[is.na(x)] <- 0
+mean(x[-which.min(x)])
+```
+
+#### __Q1 Work: Grade Function__
+Taking the working snipped and making it into a function.
+Go to __"Code"__ tab and select __"Extract Function".__ 
+
+```{r}
+grade <- function(x) {
+  x[is.na(x)] <- 0
+  mean(x[-which.min(x)])
+}
+```
+
+Using the Function for student grades.
+
+__Student 1__
+```{r}
+grade(student1)
+```
+__Student 2__
+```{r}
+grade(student2)
+```
+
+__Student 3__
+```{r}
+grade(student3)
+```
+
+To better annotate your code, go to the __"Code"__ tab and select __"Insert Roxygen Skeleton"__
+```{r}
+#' Calculate average scores for a vector of homework scores.
+#' Dropping the lowest single score. Missing values 
+#' will be treated as a zero score.
+#' @param x Numeric vector of homework scores.
+#'
+#' @return Average score.
+#' @export 
+#'
+#' @examples
+#' Students <- c(100, NA, 90, 80)
+#' grade(student)
+grade <- function(x) {
+  # Map NA missing homework values to zero.
+  # Missing homeworks score zero.
+  x[is.na(x)] <- 0
+  # We exclude lowest scored homework.
+  mean(x[-which.min(x)])
+}
+```
+
+#### Now we can take the gradebook and **grade the whole class** of multiple students.
+
+```{r}
+# First load the CSV file.
+url <- "https://tinyurl.com/gradeinput"
+# Make the student names as first column.
+gradebook <- read.csv(url, row.names=1)
+gradebook
+```
+
+Use __'apply()'__ to grade all the students with the __'grade()'__ function.
+```{r}
+apply(gradebook, 1, grade)
+```
+
+> **Q2.** Using your grade() function and the supplied gradebook, Who is the top scoring student overall in the gradebook? [3pts]
+
+```{r}
+# First view the results. 
+results <- apply(gradebook, 1, grade)
+
+# Sort the results in increasing order. 
+sort(results)
+
+```
+#### __Q2 Work: Top Scoring Student__
+```{r}
+which.max(results)
+```
+
+> **Q3.** From your analysis of the gradebook, which homework was toughest on students (i.e. obtained the lowest scores overall?[2pts]
+
+```{r}
+# First, we are trying the mean stat first for each homework assignments. 
+hw.ave <- apply(gradebook, 2, mean, na.rm=TRUE)
+# Call for the homework assignment with the lowest mean. 
+which.min(hw.ave)
+```
+
+#### __Q3 Work: Toughest Homework__
+* Use the median stat instead of mean in order to get a better representation of which homework was hardest on students. This gives a better view of the distribution of scores. *
+```{r}
+# Find the median for each homework assignment.
+hw.med <- apply(gradebook, 2, median, na.rm=TRUE)
+# Call for lowest median. 
+which.min(hw.med)
+```
+
+### Making a box plot of the student gradebook data. 
+```{r}
+boxplot(gradebook)
+```
+
+> **Q4.** Optional Extension: From your analysis of the gradebook, which homework was most predictive of overall score (i.e. highest correlation with average grade score)? [1pt]
+
+Use the __cor()__ function to find he most predictive score.
+```{r}
+# First assign all NA values to zero.
+gradebook[ is.na(gradebook)] <- 0
+# Use the 'cor()' function to find the correlation value for a specific homework assignment '$hw'.
+cor(results, gradebook$hw1)
+```
+
+```{r}
+# The 'apply()' function selects for all the columns '2' and gives the correlation 'cor'. 
+apply(gradebook, 2, cor, x=results)
+```
+#### Students performed worse on homework 2. 
+
+```{r}
+grade2 <- function(x, drop.lowest=TRUE) {
+  x <- as.numeric(x)
+  if(drop.lowest) {
+    mean(x[-which.min(s)])
+  } else {
+    mean(x)
+  }
+}
+```
+
