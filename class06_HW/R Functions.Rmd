@@ -1,0 +1,103 @@
+---
+title: "HW06: R Functions"
+author: "Jocelyn Olvera (A12459601)"
+date: "10/23/2021"
+output: pdf_document
+---
+
+## Q6. How would you generalize the original code above to work with any set of input protein structures?
+
+### *__Q6:__* My function to view any protein using its pdb code name.
+
+```{r}
+# As per usual, we load the package we will use.
+library(bio3d)  
+```
+## Writing my own function to produce a plot from the protein 'pdb' code. This function adopts the code from the workbook and modifies it to generate a function easy to work with. 
+
+
+```{r}
+Protein_plot <- function(prot_pdb) {
+   pdb.data <- read.pdb(prot_pdb) #first we input the data by reading in the file.
+   # Next, trim data to the calpha atoms.
+   pdb.data.chainA <- trim.pdb(pdb.data, chain="A", elety="CA") 
+   pdb.data.b <- pdb.data.chainA$atom$b #
+   # Finally, this generates the plot with alpha helixes 
+   # and beta strands represented as grey and black boxes. 
+   plotb3(pdb.data.b, sse=pdb.data.chainA, typ="l", ylab="Bfactor")
+
+}
+# Output: Protein plots. 
+Protein_plot("4AKE") # kinase w/ drug
+Protein_plot("1AKE") # kinase w/out drug
+Protein_plot("1E4Y") # kinase w/out drug
+```
+
+
+## __Q1.__ What type of object is returned from the read.pdb() function?
+
+### *__Response Q1:__* Using the read.pdb() function retrieves the 'pdb' objects. To view items in this object, we print 's1', 's2', or 's3', which provides atom number, protein atom number, nuecleic acid number of atoms, non-prot nucleic atoms, and non-prot nucleic residue values. This function also provides the protein sequence. Example below, code provided from workbook. 
+
+```{r}
+s1 <- read.pdb("4AKE") # kinase with drug
+s2 <- read.pdb("1AKE") # kinase no drug
+s3 <- read.pdb("1E4Y") # kinase with drug
+```
+```{r}
+s1 #print 's1' to get objects
+```
+
+## __Q2.__ What does the trim.pdb() function do?
+### *__Response Q2:__* This function creates a new and smaller pdb object from the selected region of the protein structure (i.e alpha chain, backbone). See example below, code provided from workbook. 
+
+#### *Code adjustment on 's3.chainA' changing __s1__ to __s3__.*
+
+```{r}
+s1.chainA <- trim.pdb(s1, chain="A", elety="CA")
+s2.chainA <- trim.pdb(s2, chain="A", elety="CA")
+s3.chainA <- trim.pdb(s3, chain="A", elety="CA")
+```
+
+## Q3. What input parameter would turn off the marginal black and grey rectangles in the plots and what do they represent in this case?
+
+### *__Response Q3:__* The 'sse' parameter turns off the black/grey rectangles in the plot. These rectangles represent the alpha helix and beta strand regions of the protein. 
+
+```{r}
+s1.b <- s1.chainA$atom$b
+s2.b <- s2.chainA$atom$b
+s3.b <- s3.chainA$atom$b
+```
+
+```{r}
+plotb3(s1.b, typ="l", ylab="Bfactor")
+# Removing 'sse' to demonstrate that this parameter controls the presence of black/grey boxes.
+```
+
+
+
+```{r}
+plotb3(s2.b, sse=s2.chainA, typ="l", ylab="Bfactor")
+```
+
+
+
+```{r}
+plotb3(s3.b, sse=s3.chainA, typ="l", ylab="Bfactor")
+```
+
+## __Q4.__ What would be a better plot to compare across the different proteins?
+
+### *__Response Q4:__* We can use a dandogram to compare B-factors as in Q5. 
+
+
+## Q5. Which proteins are more similar to each other in their B-factor trends. How could you quantify this? 
+### *__Response Q5:__* Proteins 1AKE and 1E4Y are more similar. This can be quantified by finding the distance between the each B-factor of the proteins.  
+
+```{r}
+hc <- hclust( dist( rbind(s1.b, s2.b, s3.b) ) )
+plot(hc)
+```
+
+
+
+
