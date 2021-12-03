@@ -8,3 +8,5 @@ Bioinformatics class at UCSD
 - Class07.
 - Class08. 
 - Class09. Halloween Candy Analysis
+- Class10. 
+- Class11.
