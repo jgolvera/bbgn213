@@ -2,8 +2,8 @@
 Bioinformatics class at UCSD
 
 ## Contents: 
-- Class04. Intrdocution to R [source] (https://github.com/jgolvera/bbgn213/blob/main/class04/class04.Rproj)
-- Class05. Data Visualization with ggplot2 [source] (https://github.com/jgolvera/bbgn213/blob/main/class05_olvera_jocelyn/class05.R)
+- Class04. Intrdocution to R [source](https://github.com/jgolvera/bbgn213/blob/main/class04/class04.Rproj)
+- Class05. Data Visualization with ggplot2 [source](https://github.com/jgolvera/bbgn213/blob/main/class05_olvera_jocelyn/class05.R)
 - Class06. [**R Functions**] [source](https://github.com/jgolvera/bbgn213/blob/main/class06/class06.md) 
 - Class09. Mini Project [source](https://github.com/jgolvera/bbgn213/blob/main/class09_miniproject/class09_miniproject.pdf)
 - Class10. Halloween Candy Analysis [source](https://github.com/jgolvera/bbgn213/blob/main/class10_halloween/class10_halloween.md)
