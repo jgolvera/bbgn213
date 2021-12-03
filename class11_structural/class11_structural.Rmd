@@ -1,0 +1,78 @@
+---
+title: "class11_structural"
+date: "11/5/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1: Introduction to the RCSB Protein Data Bank (PDB)
+
+```{r}
+# Read in downloaded csv file. 
+pdb.data <- read.csv("Data Export Summary.csv", row.names = 1)
+pdb.data
+```
+
+## __Q1__: What percentage of structures in the PDB are solved by X-Ray and Electron Microscopy.
+```{r}
+library(skimr)
+skim(pdb.data)
+```
+```{r}
+sum(pdb.data$X.ray)
+sum(pdb.data$Total)
+```
+```{r}
+round((pdb.data$X.ray) / sum(pdb.data$Total) *100, 2)
+```
+```{r}
+round((colSums(pdb.data) / sum(pdb.data$Total)) *100, 2)
+```
+
+
+## __Q2:__ What proportion of structures in the PDB are protein?
+
+```{r}
+# Calling for total of "protein only"
+prot.only <- pdb.data$Total[1]
+prot.only
+
+# The proportion of "protein only" 
+prot.prop <- prot.only/sum(pdb.data$Total)
+prot.prop
+```
+
+## __Q3:__ Type HIV in the PDB website search box on the home page and determine how many HIV-1 protease structures are in the current PDB?
+### There were 22, 824 protease protein structures for HIV-1.
+
+
+
+# 2. Visualizing the HIV-1 protease structure
+![HIV-1](vmdscene.png)
+
+
+# Using Bio3D in R for struftural bioinformatics
+
+```{R, results='hide'}
+library(bio3d)
+pdb <- read.pdb("1hel")
+pdb
+```
+
+```{R, results='hide'}
+pdb$atom
+```
+
+```{R}
+head(pdb$atom)
+```
+### Do a Normal Mode Analysis (NMA) a prediction of the conformational variability and instrinsic dynamics of this protein. 
+```{r}
+pdb <- read.pdb("1hel")
+m <- nma(pdb)
+plot(m)
+```
+
