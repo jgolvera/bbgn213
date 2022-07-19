@@ -2,6 +2,8 @@
 
 
 ## Contents: 
+
+- First Year Exam: Bioinformatics [source](https://github.com/jgolvera/bggn_213/tree/main/1styr_Exam)
 - Class04. Intrdocution to R [source](https://github.com/jgolvera/bbgn213/blob/main/class04/class04.Rproj)
 - Class05. Data Visualization with ggplot2 [source](https://github.com/jgolvera/bbgn213/blob/main/class05_olvera_jocelyn/class05.R)
 - Class06. R Functions [source](https://github.com/jgolvera/bbgn213/blob/main/class06/class06.md) 
