@@ -1,5 +1,4 @@
-# BGGN213 Portfolio
-Bioinformatics class at UCSD
+# BGGN213:Bioinformatics class at UCSD
 
 
 ## Contents: 
