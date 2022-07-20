@@ -1,7 +1,7 @@
 # BGGN213:Bioinformatics class at UCSD
 
 ## Contents: 
-- First Year Exam: Bioinformatics [source](https://github.com/jgolvera/bggn_213/tree/main/1styr_Exam)
+- First Year Exam: Bioinformatics [source](https://github.com/jgolvera/1stYrExam_Bioinformatics)
 - Class04. Intrdocution to R [source](https://github.com/jgolvera/bggn_213/tree/main/class04)
 - Class05. Data Visualization with ggplot2 [source](https://github.com/jgolvera/bggn_213/tree/main/class05_olvera_jocelyn)
 - Class06. R Functions [source](https://github.com/jgolvera/bggn_213/tree/main/class06) 
