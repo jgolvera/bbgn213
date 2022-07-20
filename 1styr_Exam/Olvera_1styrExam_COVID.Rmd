@@ -47,4 +47,5 @@ ggplot(covid19, aes(x=as.Date(date), y=percentage, group=variant_name, col=varia
     xlab("Month and Year") + #Renaming the X axis
     scale_x_date(date_labels= "%m %Y", date_breaks = "1 month") + #labeling by month number and year
     theme(axis.text.x = element_text(angle=45, hjust=0.8)) # angle text for and adjust height to avoid overlap with graph. 
+
 ```
